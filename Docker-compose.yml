@@ -2,12 +2,23 @@ version: '3.4'
 
 services:
   server:
-    container_name: server_express
+    container_name: server_1
     restart: always
-    image: node_server
+    image: node_server_1
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      - port=3200
+      - uri_server_2=http://ref-server-2:3300
     ports:
-      - 3200:3200
-    command: npm run start:dev
+      - 4200:3200
+    command: npm run start:prod
+    networks:
+      app-net:
+        aliases:
+          - ref_server_1
+networks:
+  app-net:
+    name: app-net
+    external: true
